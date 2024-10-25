@@ -1,10 +1,9 @@
-package secuenciales;
+package condicionales;
 
 import java.awt.EventQueue;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,8 +13,7 @@ import javax.swing.SwingConstants;
 
 public class frm01 extends JFrame {
 	private static final long serialVersionUID = 1L;
-	JTextField txtVarones, txtMujeres;
-	JLabel lblPVarones, lblPMujeres;
+	JTextField txtUnidades, txtCompra, txtDescuento, txtTotal;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -36,33 +34,45 @@ public class frm01 extends JFrame {
 		setLayout(null);
 		setLocationRelativeTo(null);
 
-		JLabel lblVarones = new JLabel("Varones :");
-		lblVarones.setBounds(50, 50, 80, 30);
-		getContentPane().add(lblVarones);
+		JLabel lblUnidades = new JLabel("Unidades :");
+		lblUnidades.setBounds(50, 50, 80, 30);
+		getContentPane().add(lblUnidades);
 
-		JLabel lblMujeres = new JLabel("Mujeres :");
-		lblMujeres.setBounds(50, 90, 80, 30);
-		getContentPane().add(lblMujeres);
+		JLabel lblCompra = new JLabel("Compra :");
+		lblCompra.setBounds(50, 90, 80, 30);
+		getContentPane().add(lblCompra);
 
-		lblPVarones = new JLabel("%");
-		lblPVarones.setBounds(200, 50, 120, 30);
-		getContentPane().add(lblPVarones);
+		JLabel lblDescuento = new JLabel("Descuento: ");
+		lblDescuento.setBounds(50, 130, 80, 30);
+		getContentPane().add(lblDescuento);
 
-		lblPMujeres = new JLabel("%");
-		lblPMujeres.setBounds(200, 90, 80, 30);
-		getContentPane().add(lblPMujeres);
+		JLabel lblTotal = new JLabel("Total: ");
+		lblTotal.setBounds(50, 180, 80, 30);
+		getContentPane().add(lblTotal);
 
-		txtVarones = new JTextField();
-		txtVarones.setBounds( 130, 50, 60, 30);
-		txtVarones.setHorizontalAlignment( SwingConstants.RIGHT );
-		txtVarones.setMargin( new Insets(5, 5, 5, 5) );
-		getContentPane().add(txtVarones);
+		txtUnidades = new JTextField();
+		txtUnidades.setBounds( 130, 50, 60, 30);
+		txtUnidades.setHorizontalAlignment( SwingConstants.RIGHT );
+		txtUnidades.setMargin( new Insets(5, 5, 5, 5) );
+		getContentPane().add(txtUnidades);
 
-		txtMujeres = new JTextField();
-		txtMujeres.setBounds( 130, 90, 60, 30);
-		txtMujeres.setHorizontalAlignment( SwingConstants.RIGHT );
-		txtMujeres.setMargin( new Insets(5, 5, 5, 5) );
-		getContentPane().add(txtMujeres);
+		txtCompra = new JTextField();
+		txtCompra.setBounds( 130, 90, 60, 30);
+		txtCompra.setHorizontalAlignment( SwingConstants.RIGHT );
+		txtCompra.setMargin( new Insets(5, 5, 5, 5) );
+		getContentPane().add(txtCompra);
+
+		txtDescuento = new JTextField();
+		txtDescuento.setBounds( 130, 130, 60, 30);
+		txtDescuento.setHorizontalAlignment( SwingConstants.RIGHT );
+		txtDescuento.setMargin( new Insets(5, 5, 5, 5) );
+		getContentPane().add(txtDescuento);
+
+		txtTotal = new JTextField();
+		txtTotal.setBounds( 130, 180, 60, 30);
+		txtTotal.setHorizontalAlignment( SwingConstants.RIGHT );
+		txtTotal.setMargin( new Insets(5, 5, 5, 5) );
+		getContentPane().add(txtTotal);
 
 		JButton btnCalcular = new JButton("Calcular");
 		btnCalcular.setBounds( 80, 150, 100, 30);
@@ -70,24 +80,31 @@ public class frm01 extends JFrame {
 		getContentPane().add(btnCalcular);
 
 		btnCalcular.addActionListener(new ActionListener() {
+			@override
 			public void actionPerformed(ActionEvent e) {
 				btnCalcular_actionPerformed();
 			}
+
 		});
 
 	}
 
 	protected void btnCalcular_actionPerformed() {
-		int varones = Integer.parseInt( txtVarones.getText() );
-		int mujeres = Integer.parseInt( txtMujeres.getText() );
+		int unidades = Integer.parseInt( txtUnidades.getText() );
 
-		int total = varones + mujeres;
-		double pVarones = varones * 100.0 / total;
-		double pMujeres = mujeres * 100.0 / total;
+		int precio = 27;
+		if (unidades >= 26 && unidades <= 50) precio = 25;
+		else if (unidades > 50 ) precio = 23;
 
-		DecimalFormat df = new DecimalFormat( "####.##");
-		lblPVarones.setText( df.format( pVarones ) + " %" );
-		lblPMujeres.setText( df.format( pMujeres ) + " %" );
+		double compra = precio * unidades;
+		double descuento = ( unidades > 50 ? 0.15 : 0.05 ) * compra;
+
+		double total = compra - descuento;
+
+		txtCompra.setText( String.format("S/ %.2f", compra ) );
+		txtDescuento.setText( String.format("S/ %.2f", descuento ) );
+		txtTotal.setText( String.format("S/ %.2f", total ) );
+
 	}
 
 }
